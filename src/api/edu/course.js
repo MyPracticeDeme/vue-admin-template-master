@@ -50,5 +50,37 @@ export default {
             url: `/eduservice/edu-course/publishCourse/`+id,
             method: 'post',
         })
-    }
+    },
+
+    //TODO 课程列表
+    //课程最终发布
+    getListCourse() {
+        return request({
+            url: '/eduservice/edu-course',
+            method: 'get'
+          })
+    },
+
+    //课程删除
+    deleteCourse(id){
+        return request({
+            url: `/eduservice/edu-course/`+id,
+            method: 'delete'
+          })
+
+    },
+
+    //1 课程列表（条件查询分页）
+    //current当前页 limit每页记录数 teacherQuery条件对象
+    getCourseListPage(current,limit,courseQuery) {
+        return request({
+            //url: '/eduservice/teacher/pageTeacherCondition/'+current+"/"+limit,
+            url: `/eduservice/edu-course/pageCourseCondition/`+current+"/"+limit,
+            method: 'post',
+            //teacherQuery条件对象，后端使用RequestBody获取数据
+            //data表示把对象转换json进行传递到接口里面
+            data: courseQuery
+          })
+    },
+
 }
