@@ -19,4 +19,13 @@ export default {
             method: 'delete',
         })
     },
+
+    //删除小结阿里云视频
+    deleteAliyunVod(id) {
+        return request({
+            //url: '/eduservice/teacher/pageTeacherCondition/'+current+"/"+limit,
+            url: `/eduvod/video/removeAliyunVideo/`+id,
+            method: 'delete',
+        })
+    },
 }

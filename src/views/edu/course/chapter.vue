@@ -123,7 +123,8 @@ export default {
                 title: '',
                 sort: 0,
                 free: 0,
-                videoSourceId: ''
+                videoSourceId: '',
+                videoOriginalName:''//视频名称
             },
             dialogChapterFormVisible:false,//章节弹框的值
             dialogVideoFormVisible:false,//小结弹框
@@ -140,14 +141,39 @@ export default {
         }
     },
     methods:{
+        //点确认调用的方法
+        handleVodRemove(){
+            video.deleteAliyunVod(this.video.videoSourceId)
+            .then(response=>{
+                //提示
+                    this.$message({
+                        type: 'success',
+                        message: '删除小结视频成功!'
+                    });
+                    //把文件列表清空
+                    this.fileList=[]
+                    //把video里面的视屏id视频的值清空
+                    this.video.videoSourceId = '';
+                    this.video.videoOriginalName='';
+            })
+        },
+
+        //点击×调用的方法
+
+        beforeVodRemove(file,fileList){
+            return this.$confirm(`确定移除 ${ file.name }？`);
+        },
 
                 //成功回调
-        handleVodUploadSuccess(response, file, fileList) {
-        this.video.videoSourceId = response.data.videoId
+        handleVodUploadSuccess(response,file,fileList) {
+            //上传之后的视频id赋值
+            this.video.videoSourceId = response.data.videoId
+            //上传之后的视频名称赋值
+            this.video.videoOriginalName=file.name;
         },
         //视图上传多于一个视频
-        handleUploadExceed(files, fileList) {
-        this.$message.warning('想要重新上传视频，请先删除已上传的视频')
+        handleUploadExceed(files,fileList) {
+            this.$message.warning('想要重新上传视频，请先删除已上传的视频')
         },
         //==================================================小结操作=======================================================================
 
